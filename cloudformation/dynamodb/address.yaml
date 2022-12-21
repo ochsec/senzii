@@ -1,0 +1,32 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'DynamoDB Table'
+
+Resources:
+  AddressTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: address1
+          AttributeType: S
+        - AttributeName: address2
+          AttributeType: S
+        - AttributeName: address3
+          AttributeType: S
+        - AttributeName: city
+          AttributeType: S
+        - AttributeName: region
+          AttributeType: S
+        - AttributeName: country
+          AttributeType: S
+        - AttributeName: postalCode
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 10
+        WriteCapacityUnits: 10
+      TableName: address

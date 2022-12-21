@@ -1,0 +1,28 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'DynamoDB Table CloudFormation Template'
+
+Resources:
+  CompanyTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: 'company'
+      AttributeDefinitions:
+        - AttributeName: 'id'
+          AttributeType: 'S'
+        - AttributeName: 'contacts'
+          AttributeType: 'L'
+        - AttributeName: 'phone'
+          AttributeType: 'L'
+        - AttributeName: 'address'
+          AttributeType: 'S'
+      KeySchema:
+        - AttributeName: 'id'
+          KeyType: 'HASH'
+      ProvisionedThroughput:
+        ReadCapacityUnits: 10
+        WriteCapacityUnits: 10
+      GlobalSecondaryIndexes: []
+      LocalSecondaryIndexes: []
+      StreamSpecification:
+        StreamViewType: 'NEW_AND_OLD_IMAGES'

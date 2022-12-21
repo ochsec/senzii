@@ -1,0 +1,25 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Create a DynamoDB table
+Resources:
+  ClientTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: client
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: company
+          AttributeType: S
+        - AttributeName: type
+          AttributeType: S
+        - AttributeName: user
+          AttributeType: S
+        - AttributeName: site
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 10
+        WriteCapacityUnits: 10
