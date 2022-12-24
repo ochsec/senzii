@@ -1,0 +1,1 @@
+python3 ./codegen.py -p $1 -o $2 -l 256 -m text-davinci-003

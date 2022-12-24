@@ -6,6 +6,14 @@ Parameters:
     Type: String
     Description: The name of the user pool
 
+  ExternalId:
+    Type: String
+    Description: The ExternalId of the SMS Role
+
+  SMSRole:
+    Type: String
+    Description: The name of the SMS service role
+
 Resources:
   UserPool:
     Type: AWS::Cognito::UserPool
@@ -55,13 +63,13 @@ Resources:
         AllowAdminCreateUserOnly: false
         UnusedAccountValidityDays: 7
         InviteMessageTemplate:
-          EmailMessage:
-            DefaultEmailOption: CONFIRM_WITH_LINK
-            EmailSubject: Your account has been created
-            EmailMessage: Please confirm your account by clicking <a href="{##VerificationLink##}">here</a>.
-          SMSMessage:
-            DefaultSmsOption: CONFIRM_WITH_CODE
-            SmsMessage: Your verification code is {##VerificationCode##}
+          EmailSubject: Your account has been created
+          EmailMessage: Hi {username}! Please confirm your account by clicking <a href="{####}">here</a>.
+          SMSMessage: Hi {username}! Your verification code is {####}
+      SmsConfiguration:
+        ExternalId: !Ref ExternalId
+        SnsCallerArn: !Sub arn:aws:iam::${AWS::AccountId}:role/service-role/${SMSRole}
+        SnsRegion: !Ref AWS::Region
       DeviceConfiguration:
         ChallengeRequiredOnNewDevice: true
         DeviceOnlyRememberedOnUserPrompt: true
