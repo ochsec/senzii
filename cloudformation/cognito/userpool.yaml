@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Senzii Cognito User Pool
+
+Parameters:
+  UserPoolName:
+    Type: String
+    Description: The name of the user pool
+
+Resources:
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: !Ref UserPoolName
+      AutoVerifiedAttributes:
+        - email
+        - phone_number
+      MfaConfiguration: OPTIONAL
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 10
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireSymbols: true
+          RequireUppercase: true
+      Schema:
+        - Name: email
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+        - Name: address
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+        - Name: family_name
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+        - Name: given_name
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+        - Name: nickname
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+        - Name: phone_number
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+        - Name: preferred_username
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: false
+        UnusedAccountValidityDays: 7
+        InviteMessageTemplate:
+          EmailMessage:
+            DefaultEmailOption: CONFIRM_WITH_LINK
+            EmailSubject: Your account has been created
+            EmailMessage: Please confirm your account by clicking <a href="{##VerificationLink##}">here</a>.
+          SMSMessage:
+            DefaultSmsOption: CONFIRM_WITH_CODE
+            SmsMessage: Your verification code is {##VerificationCode##}
+      DeviceConfiguration:
+        ChallengeRequiredOnNewDevice: true
+        DeviceOnlyRememberedOnUserPrompt: true
+
+Outputs:
+  UserPoolId:
+    Value: !Ref UserPool
+    Description: The ID of the user pool
